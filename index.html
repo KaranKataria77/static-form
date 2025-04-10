@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Package Details</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f7f8fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: 0.3s ease;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4a90e2;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3d7bd9;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>📦 Package Info</h2>
+        <form id="packageForm">
+            <label for="height">Package Height (cm)</label>
+            <input type="number" id="height" required />
+
+            <label for="width">Package Width (cm)</label>
+            <input type="number" id="width" required />
+
+            <label for="weight">Package Weight (kg)</label>
+            <input type="number" id="weight" step="0.1" required />
+
+            <label for="type">Package Type</label>
+            <select id="type" required>
+                <option value="">Select type</option>
+                <option value="Box">Box</option>
+                <option value="Envelope">Envelope</option>
+                <option value="Tube">Tube</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <p class="error" id="errorMsg"></p>
+
+            <button type="submit">Submit & Continue on WhatsApp</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById("packageForm");
+        const errorMsg = document.getElementById("errorMsg");
+        const id = new URLSearchParams(window.location.search).get("id");
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const height = document.getElementById("height").value.trim();
+            const width = document.getElementById("width").value.trim();
+            const weight = document.getElementById("weight").value.trim();
+            const type = document.getElementById("type").value;
+
+            if (!height || !width || !weight || !type) {
+                errorMsg.textContent = "Please fill in all fields.";
+                return;
+            }
+
+            const data = {
+                height,
+                width,
+                weight,
+                type,
+            };
+            console.log("data == ", data);
+
+            try {
+                const response = await fetch(`https://0b60-27-107-63-62.ngrok-free.app/update-flow?id=${id}`, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const res = await response.json();
+                console.log("Form submitted successfully");
+                errorMsg.textContent = "";
+
+                // WhatsApp redirect
+                const waMessage = encodeURIComponent(
+                    `📦 Package Details:\nHeight: ${height} cm\nWidth: ${width} cm\nWeight: ${weight} kg\nType: ${type}`
+                );
+
+                window.location.href = `https://wa.me/15550262182`;
+            } catch (error) {
+                console.error("Error submitting form:", error);
+                errorMsg.textContent = "Error submitting form. Please try again.";
+            }
+        });
+    </script>
+</body>
+
+</html>
