@@ -165,7 +165,8 @@
                     `📦 Package Details:\nHeight: ${height} cm\nWidth: ${width} cm\nWeight: ${weight} kg\nType: ${type}`
                 );
 
-                window.location.href = `https://wa.me/15550262182?text=${waMessage}`;
+                window.location.href = `whatsapp://send?phone=15550262182`;
+                // window.location.href = `https://wa.me/15550262182?text=${waMessage}`;
             } catch (error) {
                 console.error("Error submitting form:", error);
                 errorMsg.textContent = "Error submitting form. Please try again.";
