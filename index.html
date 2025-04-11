@@ -80,6 +80,14 @@
             margin-bottom: 10px;
         }
 
+        .success {
+      color: #27ae60;
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 15px;
+      display: none;
+    }
+
         @media (max-width: 480px) {
             .container {
                 padding: 20px;
@@ -91,6 +99,8 @@
 <body>
     <div class="container">
         <h2>📦 Package Info</h2>
+
+        <p class="success" id="successMessage">✅ Form submitted successfully! You may now return to WhatsApp.</p>
         <form id="packageForm">
             <label for="height">Package Height (cms)</label>
             <input type="number" id="height" required />
@@ -117,7 +127,7 @@
     </div>
 
     <script>
-        console.log("changed 4")
+        console.log("changed 5")
         const form = document.getElementById("packageForm");
         const errorMsg = document.getElementById("errorMsg");
         const id = new URLSearchParams(window.location.search).get("id");
@@ -159,7 +169,9 @@
 
                 const res = await response.json();
                 console.log("Form submitted successfully");
+                successMsg.style.display = "block";
                 errorMsg.textContent = "";
+                form.style.display = "none";
 
                 // WhatsApp redirect
                 const waMessage = encodeURIComponent(
