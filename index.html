@@ -127,9 +127,10 @@
     </div>
 
     <script>
-        console.log("changed 5")
+        console.log("changed 6")
         const form = document.getElementById("packageForm");
         const errorMsg = document.getElementById("errorMsg");
+        const successMsg = document.getElementById("successMessage");
         const id = new URLSearchParams(window.location.search).get("id");
 
         form.addEventListener("submit", async function (e) {
