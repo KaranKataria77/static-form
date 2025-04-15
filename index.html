@@ -248,6 +248,7 @@ async function fetchAndShowData() {
     try {
         const res = await fetch(`https://ed35-27-107-63-62.ngrok-free.app/api/bookings/32`);
         const json = await res.json();
+        console.log("JSON", json)
         const items = json?.data?.shipments?.[0]?.items || [];
 
         if (!Array.isArray(items) || items.length === 0) {
