@@ -162,6 +162,7 @@
             <button type="submit">Save Item</button>
         </form>
     </div>
+        <div id="previewTable" style="margin-top: 30px;"></div>
 
     <div id="itemOverview" style="display: none;"></div>
 </div>
@@ -173,6 +174,11 @@ const formContainer = document.getElementById("formContainer");
 const errorMsg = document.getElementById("errorMsg");
 const successMsg = document.getElementById("successMessage");
 const itemOverview = document.getElementById("itemOverview");
+const previewTable = document.getElementById("previewTable");
+const id = new URLSearchParams(window.location.search).get("id");
+
+// 🔁 Call on page load
+window.onload = fetchAndShowData;
 
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -181,7 +187,6 @@ form.addEventListener("submit", async function (e) {
     const width  = parseFloat(document.getElementById("width").value.trim()) || 0;
     const weight = parseFloat(document.getElementById("weight").value.trim()) || 0;
     const type = document.getElementById("type").value;
-    const id = new URLSearchParams(window.location.search).get("id");
 
     if (!height || !width || !weight || !type) {
         errorMsg.textContent = "Please fill in all fields.";
@@ -204,27 +209,29 @@ form.addEventListener("submit", async function (e) {
 
         const res = await response.json();
 
-        // Hide form and show overview
+        // ✅ Hide form and show overview
         formContainer.style.display = "none";
         successMsg.style.display = "block";
         showOverview(data);
 
+        // 🔁 Refresh preview table
+        fetchAndShowData();
     } catch (error) {
-        console.error("Error:", error);
-        errorMsg.textContent = "Something went wrong. Try again.";
+        console.error("Error submitting form:", error);
+        errorMsg.textContent = "Error submitting form. Please try again.";
     }
 });
 
 function showOverview(data) {
     itemOverview.style.display = "block";
     itemOverview.innerHTML = `
-        <div class="item">
+        <div class="item" style="background: #f8f9fb; padding: 20px; border-radius: 10px; box-shadow: 0 1px 5px rgba(0,0,0,0.05);">
             <h4>📦 Added Package</h4>
             <p><strong>Height:</strong> ${data.height} cm</p>
             <p><strong>Width:</strong> ${data.width} cm</p>
             <p><strong>Weight:</strong> ${data.weight} kg</p>
             <p><strong>Type:</strong> ${data.type}</p>
-            <button id="addAnother">➕ Add Another Item</button>
+            <button id="addAnother" style="margin-top: 15px; padding: 10px 20px; border: none; background-color: #4a90e2; color: white; border-radius: 8px; cursor: pointer;">➕ Add Another Item</button>
         </div>
     `;
 
@@ -236,7 +243,53 @@ function showOverview(data) {
         errorMsg.textContent = "";
     });
 }
+
+async function fetchAndShowData() {
+    try {
+        const res = await fetch(`https://ed35-27-107-63-62.ngrok-free.app/get-items?id=${id}`);
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+            previewTable.innerHTML = `<p>No items added yet.</p>`;
+            return;
+        }
+
+        let tableHTML = `
+            <h3>📋 Saved Packages</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <thead>
+                    <tr style="background: #f1f1f1;">
+                        <th style="padding: 10px; border: 1px solid #ccc;">#</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Height (cm)</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Width (cm)</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Weight (kg)</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        data.forEach((item, index) => {
+            tableHTML += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #eee;">${index + 1}</td>
+                    <td style="padding: 10px; border: 1px solid #eee;">${item.height}</td>
+                    <td style="padding: 10px; border: 1px solid #eee;">${item.width}</td>
+                    <td style="padding: 10px; border: 1px solid #eee;">${item.weight}</td>
+                    <td style="padding: 10px; border: 1px solid #eee;">${item.type}</td>
+                </tr>
+            `;
+        });
+
+        tableHTML += `</tbody></table>`;
+        previewTable.innerHTML = tableHTML;
+    } catch (err) {
+        console.error("Error fetching items:", err);
+        previewTable.innerHTML = `<p style="color: red;">Error loading saved data.</p>`;
+    }
+}
 </script>
+
 
 
 </body>
