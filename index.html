@@ -6,94 +6,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Package Details</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-            font-family: "Segoe UI", sans-serif;
-            background: #f7f8fa;
-            margin: 0;
+    body {
+        font-family: "Segoe UI", sans-serif;
+        background: #f7f8fa;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: #fff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+        margin-bottom: 25px;
+        text-align: center;
+        color: #333;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 12px 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #4a90e2;
+        outline: none;
+    }
+
+    .item {
+        border: 1px solid #e0e0e0;
+        background: #f9f9f9;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+        transition: transform 0.2s ease;
+    }
+
+    .item:hover {
+        transform: scale(1.01);
+    }
+
+    .item h4 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background-color: #4a90e2;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #3d7bd9;
+    }
+
+    #addItemBtn {
+        background-color: #27ae60;
+        margin-top: -10px;
+        margin-bottom: 25px;
+    }
+
+    #addItemBtn:hover {
+        background-color: #1e944f;
+    }
+
+    .error {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .success {
+        color: #27ae60;
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    @media (max-width: 480px) {
+        .container {
             padding: 20px;
         }
 
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: #fff;
-            border-radius: 15px;
-            padding: 25px 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        .item {
+            padding: 15px;
         }
-
-        h2 {
-            margin-bottom: 20px;
-            text-align: center;
-            color: #333;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 12px 14px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: 0.3s ease;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: #4a90e2;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #4a90e2;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #3d7bd9;
-        }
-
-        .error {
-            color: #e74c3c;
-            font-size: 0.9rem;
-            margin-top: -10px;
-            margin-bottom: 10px;
-        }
-
-        .success {
-      color: #27ae60;
-      font-size: 1rem;
-      text-align: center;
-      margin-bottom: 15px;
-      display: none;
     }
+</style>
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-            }
-        }
-    </style>
 </head>
 
 <body>
