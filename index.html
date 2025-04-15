@@ -127,7 +127,7 @@
     </div>
 
     <script>
-        console.log("changed 9")
+        console.log("changed 10")
         const form = document.getElementById("packageForm");
         const errorMsg = document.getElementById("errorMsg");
         const successMsg = document.getElementById("successMessage");
@@ -136,9 +136,9 @@
         form.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            const height = document.getElementById("height").value.trim();
-            const width = document.getElementById("width").value.trim();
-            const weight = document.getElementById("weight").value.trim();
+            const height = parseFloat(document.getElementById("height").value.trim()) || 0;
+            const width  = parseFloat(document.getElementById("width").value.trim()) || 0;
+            const weight = parseFloat(document.getElementById("weight").value.trim()) || 0;
             const type = document.getElementById("type").value;
 
             if (!height || !width || !weight || !type) {
